@@ -13,8 +13,9 @@ import (
 //
 // If the command fails to run or doesn't complete successfully, the error is of type *ExitError.
 // Other error types may be returned for I/O problems.
-func CmdStdout(command string) (string, error) {
-	cmd := exec.Command(command)
+func CmdStdout(cwd string, command string, args ...string) (string, error) {
+	cmd := exec.Command(command, args...)
+	cmd.Dir = cwd
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
 		return "", err
@@ -42,8 +43,9 @@ func CmdStdout(command string) (string, error) {
 //
 // If the command fails to run or doesn't complete successfully, the error is of type *ExitError.
 // Other error types may be returned for I/O problems.
-func CmdStderr(command string) (string, error) {
-	cmd := exec.Command(command)
+func CmdStderr(cwd string, command string, args ...string) (string, error) {
+	cmd := exec.Command(command, args...)
+	cmd.Dir = cwd
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
 		return "", err
